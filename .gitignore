@@ -1,0 +1,11 @@
+#ignore eclipse user-specific files
+**/.settings
+**/.project
+**/.classpath
+
+#ignore all emacs backup files
+**/*~*
+
+**/target
+**/*.class
+
