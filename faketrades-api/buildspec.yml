@@ -8,6 +8,7 @@ phases:
       #- $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       #- echo docker login successful.
       - IMAGE_NAME=fake-trades-api
+      - mvn clean package
   build:
     commands:
       - echo Build started on `date`
