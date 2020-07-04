@@ -4,9 +4,9 @@ version: 0.2
 phases:
   pre_build:
     commands:
-      #- echo Logging in to Amazon ECR...
-      #- $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
-      #- echo docker login successful.
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - echo docker login successful.
       - IMAGE_NAME=fake-trades-api
       - cd faketrades-api
       - mvn clean package
