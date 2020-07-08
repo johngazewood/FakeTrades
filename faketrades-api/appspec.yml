@@ -6,7 +6,7 @@ Resources:
       Properties:
         TaskDefinition: <TASK_DEFINITION>
         LoadBalancerInfo:
-          ContainerName: "faketrades-api-test"
+          ContainerName: "faketrades-api"
           ContainerPort: 8080
 # Optional properties
 #        PlatformVersion: "LATEST"
