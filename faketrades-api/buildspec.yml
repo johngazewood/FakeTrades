@@ -25,4 +25,4 @@ phases:
       - printf '{"ImageURI":"image_URI"}' > imageDetail.json
 artifacts:
    files:
-      -imageDetails.json
+      - imageDetails.json
