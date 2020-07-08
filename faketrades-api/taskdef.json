@@ -2,7 +2,7 @@
     "executionRoleArn": "arn:aws:iam::964183462461:role/ecsTaskExecutionRole",
     "containerDefinitions": [
         {
-            "name": "faketrades-api--task-def",
+            "name": "faketrades-api",
             "image": "<FAKETRADES_API_IMAGE_NAME>",
             "essential": true,
             "portMappings": [
