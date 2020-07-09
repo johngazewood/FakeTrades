@@ -1,6 +1,23 @@
 ---
-version: 0.2
-os: linux
-files:
-  - source: ./faketrades-api-0.0.1-SNAPSHOT.jar
-    destination: /tmp
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: <TASK_DEFINITION>
+        LoadBalancerInfo:
+          ContainerName: "faketrades-api"
+          ContainerPort: 8080
+# Optional properties
+#        PlatformVersion: "LATEST"
+#        NetworkConfiguration:
+#            AwsvpcConfiguration:
+#              Subnets: ["subnet-name-1", "subnet-name-2"]
+#              SecurityGroups: ["security-group"]
+#              AssignPublicIp: "ENABLED"
+#Hooks:
+#- BeforeInstall: "BeforeInstallHookFunctionName"
+#- AfterInstall: "AfterInstallHookFunctionName"
+#- AfterAllowTestTraffic: "AfterAllowTestTrafficHookFunctionName"
+#- BeforeAllowTraffic: "BeforeAllowTrafficHookFunctionName"
+#- AfterAllowTraffic: "AfterAllowTrafficHookFunctionName"
