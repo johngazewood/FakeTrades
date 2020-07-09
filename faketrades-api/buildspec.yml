@@ -15,10 +15,10 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build -t fake-trades-api .
-      - docker tag fake-trades-api:latest 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades:fake-trades-api
+      - docker build -t faketrades-api .
+      - docker tag faketrades-api:latest 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-api:latest
   post_build:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades:fake-trades-api
+      - docker push 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-api:latest
