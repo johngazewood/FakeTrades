@@ -22,7 +22,3 @@ phases:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades:fake-trades-api
-      - printf '{"ImageURI":"image_URI"}' > imageDetails.json
-artifacts:
-   files:
-      - imageDetails.json
