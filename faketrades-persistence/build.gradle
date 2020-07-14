@@ -1,0 +1,21 @@
+plugins {
+    // Apply the java-library plugin to add support for Java Library
+    id 'java-library'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
+
+dependencies {
+//  Spring
+    compile group: 'org.springframework.boot', name: 'spring-boot', version: '2.3.1.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-autoconfigure', version: '2.3.1.RELEASE'
+
+//  AWS
+    compile group: 'com.amazonaws', name: 'aws-java-sdk', version: '1.11.820'
+    compile group: 'com.syncron.amazonaws', name: 'simba-athena-jdbc-driver', version: '2.0.2'
+
+    testImplementation 'junit:junit:4.12'
+}
