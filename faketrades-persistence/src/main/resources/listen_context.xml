@@ -9,16 +9,16 @@
 
 	<bean id="tradesListen" class="faketrades.persistence.Listen">
 		<property name="streamArn"
-			value="arn:aws:dynamodb:us-east-2:964183462461:table/FakeTrades-Prod_Trades/stream/2020-07-14T16:00:41.607" />
+			value="${trades.dynamo.stream}" />
         <property name="targetDatabase" value="faketrades_prod"/>
-        <property name="targetTable" value=""/>
+        <property name="targetTable" value="trades"/>
 	</bean>
 
 	<bean id="eventsListen" class="faketrades.persistence.Listen">
 		<property name="streamArn"
-			value="arn:aws:dynamodb:us-east-2:964183462461:table/FakeTrades-Prod_Events/stream/2020-07-14T16:00:58.104" />
+			value="${events.dynamo.stream}" />
         <property name="targetDatabase" value="faketrades_prod"/>
-        <property name="targetTable" value=""/>
+        <property name="targetTable" value="events"/>
 	</bean>
 
 
