@@ -1,7 +1,7 @@
 package faketrades.persistence;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -33,16 +33,19 @@ public class FakeTradesPersistenceStartup {
 			// other options: test, development
 			env = args[0];
 		}
-		String propertiesFile = "src/main/resources/" + env + "/application.properties";
+		//String propertiesFile = "src/main/resources/" + env + "/application.properties";
+		String propertiesFile = "/" + env + "/application.properties";
 		loadProperties(propertiesFile);
-		propertiesFile = "src/main/resources/common.properties";
+
+		propertiesFile = "/common.properties";
 		loadProperties(propertiesFile);
 
 	}
 
 	private static void loadProperties(String propertiesFile) {
 		try {
-			System.getProperties().load(new FileInputStream(propertiesFile));
+			InputStream is = FakeTradesPersistenceStartup.class.getResourceAsStream(propertiesFile);
+			System.getProperties().load(is);
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(-1);
