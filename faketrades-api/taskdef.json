@@ -2,7 +2,7 @@
     "executionRoleArn": "arn:aws:iam::964183462461:role/ecsTaskExecutionRole",
     "containerDefinitions": [
         {
-            "name": "faketrades-api-master",
+            "name": "faketrades-api",
             "image": "<FAKETRADES_API_IMAGE_NAME>",
             "essential": true,
             "portMappings": [
@@ -20,5 +20,5 @@
     "networkMode": "awsvpc",
     "cpu": "256",
     "memory": "512",
-    "family": "faketrades-api-master"
+    "family": "faketrades-api"
 }
