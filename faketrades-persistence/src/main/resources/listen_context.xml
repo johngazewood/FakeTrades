@@ -10,14 +10,14 @@
 	<bean id="tradesListen" class="faketrades.persistence.Listen">
 		<property name="streamArn"
 			value="${trades.dynamo.stream}" />
-        <property name="targetDatabase" value="faketrades_prod"/>
+        <property name="targetDatabase" value="${target.database}"/>
         <property name="targetTable" value="trades"/>
 	</bean>
 
 	<bean id="eventsListen" class="faketrades.persistence.Listen">
 		<property name="streamArn"
 			value="${events.dynamo.stream}" />
-        <property name="targetDatabase" value="faketrades_prod"/>
+        <property name="targetDatabase" value="${target.database}"/>
         <property name="targetTable" value="events"/>
 	</bean>
 
