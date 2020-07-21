@@ -1,0 +1,23 @@
+---
+version: 0.0
+Resources:
+  - TargetService:
+      Type: AWS::ECS::Service
+      Properties:
+        TaskDefinition: <TASK_DEFINITION>
+        LoadBalancerInfo:
+          ContainerName: "faketrades-api-test"
+          ContainerPort: 8080
+# Optional properties
+#        PlatformVersion: "LATEST"
+#        NetworkConfiguration:
+#            AwsvpcConfiguration:
+#              Subnets: ["subnet-name-1", "subnet-name-2"]
+#              SecurityGroups: ["security-group"]
+#              AssignPublicIp: "ENABLED"
+#Hooks:
+#- BeforeInstall: "BeforeInstallHookFunctionName"
+#- AfterInstall: "AfterInstallHookFunctionName"
+#- AfterAllowTestTraffic: "AfterAllowTestTrafficHookFunctionName"
+#- BeforeAllowTraffic: "BeforeAllowTrafficHookFunctionName"
+#- AfterAllowTraffic: "AfterAllowTrafficHookFunctionName"
