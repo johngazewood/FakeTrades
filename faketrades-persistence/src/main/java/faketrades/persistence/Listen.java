@@ -52,7 +52,7 @@ public class Listen implements Runnable {
 			for (Shard shard : shards) {
 				String shardId = shard.getShardId();
 				GetShardIteratorRequest getShardIteratorRequest = new GetShardIteratorRequest().withStreamArn(streamArn)
-						.withShardId(shardId).withShardIteratorType(ShardIteratorType.LATEST);
+						.withShardId(shardId).withShardIteratorType(ShardIteratorType.TRIM_HORIZON);
 				GetShardIteratorResult getShardIteratorResult = streamsClient.getShardIterator(getShardIteratorRequest);
 				String currentShardIter = getShardIteratorResult.getShardIterator();
 
