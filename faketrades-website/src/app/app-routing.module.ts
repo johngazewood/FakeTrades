@@ -4,10 +4,12 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { ViewTradesComponent } from './view-trades/view-trades.component';
 import { CreateTradeComponent } from './create-trade/create-trade.component';
+import { TradeCreatedConfirmationComponent } from './trade-created-confirmation/trade-created-confirmation.component';
 
 const routes: Routes = [
     {path: 'viewtrades', component: ViewTradesComponent},
-    {path: 'createtrade', component: CreateTradeComponent}
+    {path: 'createtrade', component: CreateTradeComponent},
+    {path: 'tradecreatedconfirmation/:tradeid', component: TradeCreatedConfirmationComponent}
 ];
 
 @NgModule({
@@ -17,3 +19,4 @@ const routes: Routes = [
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
+

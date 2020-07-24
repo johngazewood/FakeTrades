@@ -1,1 +1,12 @@
-<p>create-trade works! hell yeah.</p>
+<h2>Create Trade</h2>
+<p>please, enter a trade:</p>
+
+<form>
+  <div>
+    <label>amount:
+      <input #amount/>
+    </label>
+  </div>
+  
+  <button (click)="create(amount.value)">create</button>
+</form>
