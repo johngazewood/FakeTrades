@@ -1,4 +1,4 @@
-package faketrades.domain;
+package com.faketrades.domain;
 
 import java.io.IOException;
 import java.math.BigDecimal;
