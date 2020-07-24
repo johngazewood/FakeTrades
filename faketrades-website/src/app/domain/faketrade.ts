@@ -1,4 +1,4 @@
-export interface Trade {
+export interface FakeTrade {
     tradid: number;
     amount: string;
 }
