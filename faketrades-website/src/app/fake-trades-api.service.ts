@@ -10,8 +10,7 @@ import { FakeTrade } from './domain/faketrade';
 export class FakeTradesApiService {
 
     httpOptions = {
-	headers: new HttpHeaders({ 'Content-Type': 'application/json',
-				   'Access-Control-Allow-Origin':'*'})
+	headers: new HttpHeaders({ 'Content-Type': 'application/json'})
     };
     
     apiEndpoint: string;
