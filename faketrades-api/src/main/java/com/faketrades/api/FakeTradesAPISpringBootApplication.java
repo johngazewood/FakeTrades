@@ -15,4 +15,5 @@ public class FakeTradesAPISpringBootApplication {
 		logger.info("Starting Spring Application.");
 		SpringApplication.run(FakeTradesAPISpringBootApplication.class, args);
 	}
+
 }

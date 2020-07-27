@@ -1,4 +1,4 @@
 export interface FakeTrade {
-    tradid: number;
+    tradeid: number;
     amount: string;
 }

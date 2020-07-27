@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Trade } from '../domain/trade';
+import { FakeTrade } from '../domain/faketrade';
+import { FakeTradesApiService } from '../fake-trades-api.service';
 
 @Component({
   selector: 'create-trade',
@@ -10,19 +11,16 @@ import { Trade } from '../domain/trade';
 })
 export class CreateTradeComponent {
 
-    constructor(private router: Router) {}
+    constructor(private router: Router,
+		private api: FakeTradesApiService) {}
     
-    create(amount: string): void {
-	console.log('create new trade, and reroute to trade-created-confirmation, amount:  ' + amount);
-	let tradeid: number = this.callDao(amount);
+    create(a: string): void {
+	var trade : FakeTrade = {amount: a, tradeid: 0};
+	let tradeid: number = this.api.create(trade);
 	if (tradeid > 0) {
 	    this.router.navigate([`/tradecreatedconfirmation/${tradeid}`]);
 	} else {
-	    console.log('please, reroute to trade-creation-failure page.');
+	    this.router.navigate([`/tradecreationfailure`]);
 	}
-    }
-
-    callDao(amount: string): number {
-	return 6;
     }
 }
