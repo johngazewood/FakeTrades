@@ -9,4 +9,12 @@
   </div>
   
   <button type="button" (click)="create(amount.value)">create</button>
+
+  <div *ngIf="tradeid > 0">
+    <p>Trade created! Trade id: {{tradeid}}</p>
+  </div>
+  <div *ngIf="tradeid < 0">
+    <p>FAILED to create trade</p>
+  </div>
+  
 </form>

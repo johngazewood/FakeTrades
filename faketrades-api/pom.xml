@@ -26,19 +26,25 @@
 			<scope>test</scope>
 		</dependency>
 
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+		</dependency>
+		
 		<!-- Logs -->
 		<dependency>
 			<groupId>org.apache.logging.log4j</groupId>
 			<artifactId>log4j-api</artifactId>
 		</dependency>
-		
+
 		<!-- Fake Trades -->
 		<dependency>
-		  <groupId>com.faketrades</groupId>
-		  <artifactId>domain</artifactId>
-		  <version>0.1-SNAPSHOT</version>
-		  <scope>system</scope>
-		  <systemPath>${project.basedir}/lib/faketrades-domain.jar</systemPath>
+			<groupId>com.faketrades</groupId>
+			<artifactId>domain</artifactId>
+			<version>0.1-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/faketrades-domain.jar</systemPath>
 		</dependency>
 	</dependencies>
 

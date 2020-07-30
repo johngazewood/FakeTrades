@@ -1,1 +1,15 @@
-<p>view-trades works!</p>
+<p>Trades:</p>
+
+<button type="button" title="reload trades" (click)="reload()">Reload</button>
+
+<ul class="trades">
+  <li *ngFor="let trade of trades">
+    <p>Trade ID: {{trade.tradeId}}</p>
+    <br>
+    <p>Amount: {{trade.amount}}</p>
+    <br>
+  </li>
+</ul>
+
+
+

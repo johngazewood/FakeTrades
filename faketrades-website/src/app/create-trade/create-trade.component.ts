@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Router } from '@angular/router';
+import { Observable, of } from 'rxjs';
 
 import { FakeTrade } from '../domain/faketrade';
 import { FakeTradesApiService } from '../fake-trades-api.service';
@@ -10,17 +10,13 @@ import { FakeTradesApiService } from '../fake-trades-api.service';
   styleUrls: ['./create-trade.component.css']
 })
 export class CreateTradeComponent {
-
-    constructor(private router: Router,
-		private api: FakeTradesApiService) {}
+    tradeid: number;
+    constructor(private api: FakeTradesApiService) {}
     
     create(a: string): void {
 	var trade : FakeTrade = {amount: a, tradeid: 0};
-	let tradeid: number = this.api.create(trade);
-	if (tradeid > 0) {
-	    this.router.navigate([`/tradecreatedconfirmation/${tradeid}`]);
-	} else {
-	    this.router.navigate([`/tradecreationfailure`]);
-	}
+	let resp: Observable<any> = this.api.create(trade);
+	resp.subscribe(r => this.tradeid = r.tradeid);
+	console.log('create-trade.component.ts>> tradeid: ' + this.tradeid);
     }
 }
