@@ -15,7 +15,7 @@ public class HeartBeatController {
 	@GetMapping(path = "", produces = "application/json")
 	public String getHeartBeat() {
 		logger.info("GET /heartbeat requested. -- make another small change.");
-		return "The heart beats back. Thump.";
+		return "Anna cannot decide.";
 	}
 
 }
