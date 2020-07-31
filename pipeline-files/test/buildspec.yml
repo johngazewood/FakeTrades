@@ -7,8 +7,6 @@ phases:
       - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - echo docker login successful.
-      - IMAGE_NAME=fake-trades-api
-      - IMAGE_URI=964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-api:lastest
       - cd faketrades-api
       - mvn clean package
       - cd ..
@@ -21,5 +19,5 @@ phases:
     commands:
       - echo Build completed on `date`
       - echo Pushing the Docker image...
-      - docker push 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-api:latest-master
+      - docker push 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-api:latest-test
 
