@@ -10,4 +10,4 @@ RUN npm install -g @angular/cli@7.3.9
 
 COPY . /app
 
-CMD ng serve --configuration=local --host 0.0.0.0
+CMD ng serve --configuration=test --host 0.0.0.0 --disableHostCheck true
