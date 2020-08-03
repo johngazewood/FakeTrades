@@ -7,8 +7,7 @@ phases:
       - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - echo docker login successful.
-      - COMMIT_HASH=$(git log | head -1 | cut -c 8-13)
-      - echo "commit hash: $COMMIT_HASH"
+      - echo "codebuild resolve source version: $CODEBUILD_RESOLVED_SOURCE_VERSION"
       - cd faketrades-api
       - mvn clean package
       - cd ../faketrades-persistence
