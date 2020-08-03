@@ -13,7 +13,7 @@ phases:
   build:
     commands:
       - echo Building started on `date`
-      - docker build -t faketrades-website -f ./faketrades-website/src/environments/Dockerfile-test ./faketrades-website/
+      - docker build -t faketrades-website -f ./faketrades-website/src/environments/test/Dockerfile ./faketrades-website/
       - docker tag faketrades-website:latest 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-website:latest-test
 
   post_build:
