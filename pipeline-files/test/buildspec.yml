@@ -7,7 +7,6 @@ phases:
       - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - echo docker login successful.
-      - echo "codebuild resolve source version: $CODEBUILD_RESOLVED_SOURCE_VERSION"
       - cd faketrades-api
       - mvn clean package
       - cd ../faketrades-persistence
@@ -15,6 +14,7 @@ phases:
       - cd ..
   build:
     commands:
+      - echo "codebuild resolve source version: $CODEBUILD_RESOLVED_SOURCE_VERSION"
       - echo Building started on `date`
       - docker build -t faketrades-api -f ./faketrades-api/Dockerfile ./faketrades-api/
       - docker tag faketrades-api:latest 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-api:latest-test
