@@ -9,6 +9,8 @@ phases:
       - echo docker login successful.
       - cd faketrades-api
       - mvn clean package
+      - cd ../faketrades-persistence
+      - ./gradlew
       - cd ..
   build:
     commands:
@@ -17,6 +19,9 @@ phases:
       - docker tag faketrades-api:latest 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-api:latest-test
       - docker build -t faketrades-website -f ./faketrades-website/src/environments/test/Dockerfile ./faketrades-website/
       - docker tag faketrades-website:latest 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-website:latest-test
+      - docker build -t faketrades-persistence -f ./faketrades-persistence/Dockerfile ./faketrades-persistence/
+      - docker tag faketrades-persistence:latest 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-persistence:latest-test
+      
 
   post_build:
     commands:
@@ -24,4 +29,5 @@ phases:
       - echo Pushing the Docker image...
       - docker push 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-api:latest-test
       - docker push 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-website:latest-test
+      - docker push 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-persistence:latest-test
 
