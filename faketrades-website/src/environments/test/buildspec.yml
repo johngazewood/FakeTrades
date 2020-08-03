@@ -7,9 +7,6 @@ phases:
       - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - echo docker login successful.
-      - cd faketrades-website
-      - mvn clean package
-      - cd ..
   build:
     commands:
       - echo Building started on `date`
