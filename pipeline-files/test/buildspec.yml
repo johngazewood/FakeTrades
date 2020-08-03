@@ -10,15 +10,17 @@ phases:
       - cd faketrades-api
       - mvn clean package
       - cd ../faketrades-persistence
-      - ./gradlew
+      - ./gradlew build
       - cd ..
   build:
     commands:
       - echo Building started on `date`
       - docker build -t faketrades-api -f ./faketrades-api/Dockerfile ./faketrades-api/
       - docker tag faketrades-api:latest 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-api:latest-test
+      
       - docker build -t faketrades-website -f ./faketrades-website/src/environments/test/Dockerfile ./faketrades-website/
       - docker tag faketrades-website:latest 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-website:latest-test
+      
       - docker build -t faketrades-persistence -f ./faketrades-persistence/Dockerfile ./faketrades-persistence/
       - docker tag faketrades-persistence:latest 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-persistence:latest-test
       
