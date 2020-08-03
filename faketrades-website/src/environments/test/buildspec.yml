@@ -1,0 +1,24 @@
+---
+version: 0.2
+
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
+      - echo docker login successful.
+      - cd faketrades-website
+      - mvn clean package
+      - cd ..
+  build:
+    commands:
+      - echo Building started on `date`
+      - docker build -t faketrades-website -f ./faketrades-website/src/environments/Dockerfile-test ./faketrades-website/
+      - docker tag faketrades-website:latest 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-website:latest-test
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Pushing the Docker image...
+      - docker push 964183462461.dkr.ecr.us-east-2.amazonaws.com/faketrades-website:latest-test
+      
