@@ -50,6 +50,7 @@ export class FakeTradesApiService {
 
 
     create(trade: FakeTrade): Observable<any> {
+	console.log('endpoint is: ' + this.apiEndpoint);
         this.checkHeartbeat()
         var create: Observable<any> = this.http.post<any>(this.apiEndpoint + '/trade/create', trade, this.httpOptions);
         return create;
