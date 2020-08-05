@@ -11,6 +11,8 @@ phases:
       - mvn clean package
       - cd ../faketrades-persistence
       - ./gradlew build
+      - cd ../faketrades-website
+      - ng build --configuration=test
       - cd ..
   build:
     commands:

@@ -1,4 +1,6 @@
 export const environment = {
-  production: true,
-  apiUrl: 'undefined'
+    production: true,
+    env: 'prod',
+    apiUrl: 'undefined',
+    apiHost 'TBD'
 };

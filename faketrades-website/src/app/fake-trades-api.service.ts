@@ -19,7 +19,12 @@ export class FakeTradesApiService {
     hostname: string;
 
     constructor(private http: HttpClient) {
-        this.hostname = window.location.hostname;
+	if (environment.env === 'local') {
+	    this.hostname = window.location.hostname;
+	} else {
+	    this.hostname = environment.apiHost;
+	}
+        
         this.apiEndpoint = 'http://' + this.hostname + ':' + environment.apiPort + environment.apiPath;
     }
 

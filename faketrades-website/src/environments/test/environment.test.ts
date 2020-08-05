@@ -1,5 +1,7 @@
 export const environment = {
     production: false,
+    env: 'local',
     apiPort: '8080',
-    apiPath: '/faketrades-api'
+    apiPath: '/faketrades-api',
+    apiHost: 'api-test.faketrades.com'
 };
