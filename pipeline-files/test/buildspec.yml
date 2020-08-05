@@ -7,12 +7,16 @@ phases:
       - echo Logging in to Amazon ECR...
       - $(aws ecr get-login --region $AWS_DEFAULT_REGION --no-include-email)
       - echo docker login successful.
-      - cd faketrades-api
+      - cd faketrades-website
+      - echo Installing source NPM dependencies...
+      - npm install
+      - npm install -g @angular/cli
+      - ng build --configuration=test
+      
+      - cd ../faketrades-api
       - mvn clean package
       - cd ../faketrades-persistence
       - ./gradlew build
-      - cd ../faketrades-website
-      - ng build --configuration=test
       - cd ..
   build:
     commands:
