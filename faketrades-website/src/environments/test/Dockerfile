@@ -1,13 +1,7 @@
-FROM node:12.2.0
+FROM nginx
 
-WORKDIR /app
+#RUN rm /etc/nginx/conf.d/default.conf
+#RUN rm /etc/nginx/conf.d/examplessl.conf
 
-ENV PATH /app/node_modules/.bin:$PATH
-
-COPY package.json /app/package.json
-RUN npm install
-RUN npm install -g @angular/cli@7.3.9
-
-COPY . /app
-
-CMD ng serve --configuration=test --host 0.0.0.0 --disableHostCheck true
+COPY dist/faketrades-website/* /usr/share/nginx/html/
+#COPY conf /etc/nginx
