@@ -31,7 +31,7 @@ export class FakeTradesApiService {
 
     checkHeartbeat(): boolean {
         //var heart: Observable<any> = this.http.get<any>(this.apiEndpoint + '/heartbeat');
-	var heart: Observable<any> = this.http.get<any>('/faketrades-api/heartbeat');
+	var heart: Observable<any> = this.http.get<any>(environment.apiPath+'/heartbeat');
         var ok: boolean = false;
         var resp;
 	(async () => {
@@ -54,11 +54,11 @@ export class FakeTradesApiService {
     create(trade: FakeTrade): Observable<any> {
 	console.log('fake-trades-api.services.ts>> endpoint is: ' + this.apiEndpoint);
         this.checkHeartbeat()
-        var create: Observable<any> = this.http.post<any>(this.apiEndpoint + '/trade/create', trade, this.httpOptions);
+        var create: Observable<any> = this.http.post<any>(environment.apiPath+'/trade/create', trade, this.httpOptions);
         return create;
     }
 
     view(): Observable<FakeTrade[]> {
-	return this.http.get<any>(this.apiEndpoint + '/trade/view', this.httpOptions);
+	return this.http.get<any>(environment.apiPath + '/trade/view', this.httpOptions);
     }
 }
