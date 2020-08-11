@@ -20,16 +20,18 @@ export class FakeTradesApiService {
 
     constructor(private http: HttpClient) {
 	if (environment.env === 'local') {
-	    this.hostname = window.location.hostname;
+	    this.hostname = '0.0.0.0'; //window.location.hostname;
 	} else {
 	    this.hostname = environment.apiHost;
 	}
         
-        this.apiEndpoint = 'http://' + this.hostname + ':' + environment.apiPort + environment.apiPath;
+        //this.apiEndpoint = 'http://' + this.hostname + ':' + environment.apiPort + environment.apiPath;\
+	this.apiEndpoint = 'http://' + this.hostname + ':4200' + environment.apiPath;
     }
 
     checkHeartbeat(): boolean {
-        var heart: Observable<any> = this.http.get<any>(this.apiEndpoint + '/heartbeat');
+        //var heart: Observable<any> = this.http.get<any>(this.apiEndpoint + '/heartbeat');
+	var heart: Observable<any> = this.http.get<any>('/faketrades-api/heartbeat');
         var ok: boolean = false;
         var resp;
 	(async () => {
@@ -50,7 +52,7 @@ export class FakeTradesApiService {
 
 
     create(trade: FakeTrade): Observable<any> {
-	console.log('endpoint is: ' + this.apiEndpoint);
+	console.log('fake-trades-api.services.ts>> endpoint is: ' + this.apiEndpoint);
         this.checkHeartbeat()
         var create: Observable<any> = this.http.post<any>(this.apiEndpoint + '/trade/create', trade, this.httpOptions);
         return create;
