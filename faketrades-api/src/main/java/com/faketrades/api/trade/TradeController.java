@@ -3,10 +3,10 @@ package com.faketrades.api.trade;
 import java.math.BigDecimal;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Random;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +23,9 @@ public class TradeController {
 
 	private static final Logger logger = LogManager.getLogger(TradeController.class);
 	
+	@Autowired
+	Trader trader;
+
 	@CrossOrigin
 	@PostMapping(path = "/create")
 	public String postCreateTrade(@RequestBody FakeTrade trade) {
@@ -30,15 +33,13 @@ public class TradeController {
 
 		// (grab latest/largest existing tradeid)
 		// write to the stream.
-		// verify it gets processed. (confirm there is a trade with tradeid > alreadyExistingLargestTradeId from above^^)
+		// verify it gets processed. (confirm there is a trade with tradeid >
+		// alreadyExistingLargestTradeId from above^^)
 
-		Random rand = new Random();
-		int x = -1;
-		if (rand.nextBoolean()) {
-			x = Math.abs(rand.nextInt());
-		}
-		String s = String.format("{\"tradeid\":%s}", x);
-		System.out.println(String.format("TradeController>> 'new' trade id: %s", s));
+		String id = trader.create(trade);
+
+		String s = String.format("{\"kinesisid\":%s}", id);
+		System.out.println(String.format("TradeController>> api responding with %s", s));
 		return s;
 
 	}
