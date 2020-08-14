@@ -10,3 +10,4 @@
 **/*.class
 
 faketrades-website/dist/
+**/*.log
