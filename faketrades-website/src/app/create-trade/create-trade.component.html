@@ -10,10 +10,10 @@
   
   <button type="button" (click)="create(amount.value)">create</button>
 
-  <div *ngIf="tradeid > 0">
-    <p>Trade created! Trade id: {{tradeid}}</p>
+  <div *ngIf="kinesisid">
+    <p>Trade created! Kinesis id: {{kinesisid}}</p>
   </div>
-  <div *ngIf="tradeid < 0">
+  <div *ngIf="kinesisid == -1">
     <p>FAILED to create trade</p>
   </div>
   

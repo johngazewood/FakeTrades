@@ -10,13 +10,13 @@ import { FakeTradesApiService } from '../fake-trades-api.service';
   styleUrls: ['./create-trade.component.css']
 })
 export class CreateTradeComponent {
-    tradeid: number;
+    kinesisid: number;
     constructor(private api: FakeTradesApiService) {}
     
     create(a: string): void {
-	var trade : FakeTrade = {amount: a, tradeid: 0};
+	var trade : FakeTrade = {amount: a, tradeid: 0, kinesisid: null};
 	let resp: Observable<any> = this.api.create(trade);
-	resp.subscribe(r => this.tradeid = r.tradeid);
-	console.log('create-trade.component.ts>> tradeid: ' + this.tradeid);
+	resp.subscribe(r => this.kinesisid = r.kinesisid);
+	console.log('create-trade.component.ts>> kinesisid: ' + this.kinesisid);
     }
 }

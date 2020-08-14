@@ -29,17 +29,12 @@ public class TradeController {
 	@CrossOrigin
 	@PostMapping(path = "/create")
 	public String postCreateTrade(@RequestBody FakeTrade trade) {
-		logger.info("please, actually create a trade. request: " + trade);
-
-		// (grab latest/largest existing tradeid)
-		// write to the stream.
-		// verify it gets processed. (confirm there is a trade with tradeid >
-		// alreadyExistingLargestTradeId from above^^)
+		logger.info("create trade request: " + trade);
 
 		String id = trader.create(trade);
 
 		String s = String.format("{\"kinesisid\":%s}", id);
-		System.out.println(String.format("TradeController>> api responding with %s", s));
+		logger.info(String.format("TradeController>> api responding with %s", s));
 		return s;
 
 	}

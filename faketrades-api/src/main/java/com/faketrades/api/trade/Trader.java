@@ -1,29 +1,31 @@
 package com.faketrades.api.trade;
 
+import java.nio.ByteBuffer;
 import java.util.Random;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import javax.annotation.PostConstruct;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import com.amazonaws.auth.AWSStaticCredentialsProvider;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.kinesis.AmazonKinesis;
+import com.amazonaws.services.kinesis.AmazonKinesisClientBuilder;
+import com.amazonaws.services.kinesis.model.DescribeStreamResult;
+import com.amazonaws.services.kinesis.model.PutRecordResult;
 import com.faketrades.domain.FakeTrade;
 
 import software.amazon.awssdk.auth.credentials.AwsCredentials;
 import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
-import software.amazon.awssdk.core.SdkBytes;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.kinesis.KinesisAsyncClient;
-import software.amazon.awssdk.services.kinesis.model.DescribeStreamRequest;
-import software.amazon.awssdk.services.kinesis.model.DescribeStreamResponse;
-import software.amazon.awssdk.services.kinesis.model.PutRecordRequest;
-import software.amazon.awssdk.services.kinesis.model.PutRecordResponse;
-import software.amazon.kinesis.common.KinesisClientUtil;
 
 @Component
 public class Trader {
+
+	private static final Logger logger = LogManager.getLogger(Trader.class);
 
 	@Value("${stream.name}")
 	String streamName;
@@ -33,85 +35,52 @@ public class Trader {
 	@Value("${region}")
 	String regionString;
 
-	KinesisAsyncClient kinesisClient;
+	boolean processing = false;
+
+	AmazonKinesis kinesis;
 
 	@PostConstruct
 	public void init() {
-		Region region = Region.of(regionString);
-		kinesisClient = KinesisClientUtil.createKinesisAsyncClient(KinesisAsyncClient.builder().region(region));
+		Regions region = Regions.fromName(regionString);
+		DefaultCredentialsProvider provider = DefaultCredentialsProvider.create();
+		AwsCredentials creds = provider.resolveCredentials();
+		String accessKey = creds.accessKeyId();
+		String secretKey = creds.secretAccessKey();
+		BasicAWSCredentials awsCredentials = new BasicAWSCredentials(accessKey, secretKey);
+		kinesis = AmazonKinesisClientBuilder
+				.standard()
+				.withCredentials(
+				new AWSStaticCredentialsProvider(awsCredentials))
+				.withRegion(region).build();
 
-		/*
-		KinesisAsyncClientBuilder clientBuilder = KinesisAsyncClient.builder().region(region);
-		clientBuilder.httpClient(NettyNioAsyncHttpClient.builder()
-				.buildWithDefaults(AttributeMap.builder().build()));
-		((SdkClientBuilder) clientBuilder)
-				.endpointOverride(URI.create("arn:aws:kinesis:us-east-2:964183462461:stream/FakeTradesTestStream"));
-		kinesisClient = clientBuilder.build();
-		*/
-		
-		
 		validateStream();
 	}
 
-	public static void main(String[] args) {
-		System.out.println("Trader>> running Trader directly.");
-		Trader trader = new Trader();
-		trader.setRegionString("us-east-2");
-		trader.setStreamName("FakeTradesTestStream");
-		trader.init();
-		System.out.println("Trader>> -------------------------  ran Trader DIRECTLY.");
-	}
-
 	private void validateStream() {
-		// DefaultAWSCredentialsProviderChain x = new
-		// DefaultAWSCredentialsProviderChain();
-		// System.out.println(String.format("Trader>> credentials: %s",
-		// x.getCredentials()));
-
-		
-		DefaultCredentialsProvider provider = DefaultCredentialsProvider.create();
-		AwsCredentials creds = provider.resolveCredentials();
-		System.out.println(String.format("Trader>> creds %s -----------------------", creds));
-		System.out.println(
-				String.format("Trader>> property %s -----------------------", System.getProperty("accessKeyId")));
-		
-		DescribeStreamRequest request = DescribeStreamRequest.builder().streamName(streamName).build();
-		CompletableFuture<DescribeStreamResponse> futureResponse = kinesisClient.describeStream(request);
-		try {
-			DescribeStreamResponse response = futureResponse.get();
-			if (!response.streamDescription().streamStatus().toString().contentEquals("ACTIVE")) {
-				System.err.println("Stream " + streamName + " is not active. Please wait a few moments and try again.");
-			} else {
-				System.out.println("Trader>> STREAM OK -------------------------------------------------------- ");
-			}
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
+		DescribeStreamResult result = kinesis.describeStream(streamName);
+		String status = result.getStreamDescription().getStreamStatus();
+		if (!"ACTIVE".equals(status)) {
+			System.err.println("Trader>> ERROR!!!!  Stream " + streamName + " is not active.");
+		} else {
+			System.out.println("Trader>> STREAM OK");
+			processing = true;
 		}
-
 	}
 
 	public String create(FakeTrade trade) {
-		String kinesisId = "-1";
-		byte[] bytes = trade.toJsonAsBytes();
-		if (bytes == null) {
-			System.err.println("Trader>> Could not get JSON bytes for trade: " + trade);
-			return kinesisId;
+		String kinesisId = "\"-1\"";
+		if (processing) {
+			byte[] bytes = trade.toJsonAsBytes();
+			if (bytes == null) {
+				logger.error("Trader>> Could not get JSON bytes for trade: " + trade);
+				return kinesisId;
+			}
+			Random rand = new Random();
+			int partitionKey = rand.nextInt();
+			ByteBuffer bb = ByteBuffer.wrap(bytes);
+			PutRecordResult result = kinesis.putRecord(streamName, bb, partitionKey + "");
+			kinesisId = "\"" + result.getShardId() + ":" + result.getSequenceNumber() + "\"";
 		}
-		Random rand = new Random();
-		int partitionKey = rand.nextInt();
-		PutRecordRequest request = PutRecordRequest.builder()
-				.partitionKey(partitionKey + "")
-				.streamName(streamName).data(SdkBytes.fromByteArray(bytes)).build();
-		CompletableFuture<PutRecordResponse> futureResponse = kinesisClient.putRecord(request);
-		PutRecordResponse response = null;
-		try {
-			response = futureResponse.get();
-		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
-			return kinesisId;
-		}
-		System.out.println("Trader>> Please, validate kinesis put response: " + response);
-		kinesisId = response.shardId() + ":" + response.sequenceNumber();
 		return kinesisId;
 	}
 
@@ -138,14 +107,5 @@ public class Trader {
 	public void setRegionString(String regionString) {
 		this.regionString = regionString;
 	}
-
-	public KinesisAsyncClient getKinesisClient() {
-		return kinesisClient;
-	}
-
-	public void setKinesisClient(KinesisAsyncClient kinesisClient) {
-		this.kinesisClient = kinesisClient;
-	}
-
 
 }
