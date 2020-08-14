@@ -1,0 +1,28 @@
+plugins {
+    id 'java-library'
+    //this is supposed to make a fat jar...
+    //id 'org.springframework.boot' version '2.3.1.RELEASE'
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+        flatDir {
+        dirs 'lib'
+    }
+}
+
+dependencies {
+    // Spring
+    compile 'org.springframework.boot:spring-boot-starter:2.2.6.RELEASE'
+    
+    // AWS
+    compile 'com.amazonaws:aws-java-sdk:1.11.820'
+    compile 'software.amazon.kinesis:amazon-kinesis-client:2.2.9'
+    
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
+    
+    implementation name: 'faketrades-domain'
+
+    testImplementation 'junit:junit:4.12'
+}
